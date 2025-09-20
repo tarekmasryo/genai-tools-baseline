@@ -104,3 +104,8 @@ MIT (code) — dataset subject to its original license.
 ## 🙌 Credits
 Dataset: **Generative AI Tools & Platforms 2025** (curated).  
 Author: **Tarek Masryo** · [GitHub](https://github.com/tarekmasryo) · [Kaggle](https://www.kaggle.com/tarekmasryo) · [HuggingFace](https://huggingface.co/TarekMasryo)
+
+## Related Repositories
+- 📂 [Generative AI Tools Dataset](https://github.com/tarekmasryo/genai-tools-dataset)
+
+
