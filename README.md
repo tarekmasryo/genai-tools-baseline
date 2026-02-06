@@ -78,9 +78,9 @@ pip install pandas numpy matplotlib scikit-learn
 
 ## ⚡ Quick Start
 ```bash
-git clone https://github.com/tarekmasryo/generative-ai-tools-platforms-2025
-cd generative-ai-tools-platforms-2025
-jupyter notebook generative_ai_tools_eda_baseline.ipynb
+git clone https://github.com/tarekmasryo/genai-tools-baseline
+cd genai-tools-baseline
+jupyter notebook generative-ai-tools-platforms-2025-eda-m.ipynb
 ```
 
 - Place `Generative AI Tools - Platforms 2025.csv` under `./data/` if not running on Kaggle.
