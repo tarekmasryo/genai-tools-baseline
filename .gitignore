@@ -7,3 +7,20 @@ __pycache__/
 env/
 venv/
 ENV/
+# ===== Level B (No Overkill) =====
+
+# Data & artifacts (keep folders via .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+
+artifacts/*
+!artifacts/.gitkeep
+
+# Common outputs
+reports/
+outputs/
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.html
