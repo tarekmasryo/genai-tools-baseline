@@ -110,7 +110,7 @@ Open the notebook and run top-to-bottom (Jupyter / VS Code).
 
 ## 🧾 Case study
 
-See **CASE_STUDY.md** (project story + decisions, without repeated run steps).
+See **CASE_STUDY.md** (project story + decisions).
 
 ---
 
