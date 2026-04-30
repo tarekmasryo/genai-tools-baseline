@@ -1,74 +1,91 @@
-# 🤖 Generative AI Tools & Platforms 2025 — EDA + Baseline
+# 🤖 Generative AI Tools & Platforms 2025 — EDA + Baseline Modeling
 
-EDA → baseline classifiers → transparent metrics & confusion matrix.
+A practical Kaggle/GitHub notebook for exploring a curated 2025 GenAI tools catalog: data quality, category structure, modality coverage, API availability, open-source patterns, and a simple metadata baseline.
 
 [![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-blue)](#)
 [![Notebook](https://img.shields.io/badge/Format-Jupyter%20Notebook-orange)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🚀 Why this notebook?
+## ✨ What this repo provides
 
-- **Clear EDA**: release trends, categories, companies, open vs closed-source, modalities  
-- **Baseline models**: Logistic Regression, RandomForest, HistGradientBoosting  
-- **Evaluation**: Accuracy, Macro-F1, ROC-AUC, classification report, confusion matrix  
-- **Derived features**: `years_since_release`, `modality_count`  
-- **Reproducible**: fixed seed + stratified split, lightweight dependencies
+- 🔎 **Data audit first** — schema, missingness, duplicates, target balance, and field checks.
+- 🧹 **Clean feature handling** — preserves the original `modality_count` and uses a recomputed version from active `mod_*` flags.
+- 📊 **Focused EDA** — release years, categories, companies, modality labels, API availability, and open-source patterns.
+- 🧠 **Leak-aware baseline modeling** — excludes identifier-like fields such as tool names, companies, websites, and source domains.
+- 📈 **Cross-validated comparison** — includes a dummy majority baseline plus simple reusable metadata models.
+- 🧾 **Clear interpretation** — treats the model as an exploratory benchmark, not a production classifier.
 
 ---
 
 ## 📂 Dataset
 
-- **Source file**: `Generative AI Tools - Platforms 2025.csv`
-- **Rows**: ~110 curated tools/platforms
-- **Target**: `open_source` (0/1)
+Expected dataset file:
 
-Columns (high level):
-- `tool_name`, `company`
-- `category_canonical`, `modality_canonical`
-- `api_available`, `open_source`, `release_year`
+```text
+Generative AI Tools - Platforms 2025.csv
+```
 
-**Local (recommended):**
-- Put the CSV under: `data/raw/`
+The notebook checks common Kaggle paths first, then local paths.
 
-**Kaggle:**
-- The notebook falls back to `/kaggle/input/...` automatically  
-- Typical Kaggle path:
-  `/kaggle/input/generative-ai-tools-and-platforms-2025/Generative AI Tools - Platforms 2025.csv`
+### Kaggle
 
----
+Attach the dataset to the notebook. The loader searches common `/kaggle/input/...` locations automatically.
 
-## 🧱 Notebook outline
+### Local / GitHub workflow
 
-1. Setup & Imports  
-2. Load & Audit (shape, dtypes, missing values)  
-3. Cleaning + derived columns  
-4. EDA (distributions + relationships + entities)  
-5. Baseline modeling (preprocess + train + compare)  
-6. Best baseline + confusion matrix  
+Place the CSV here:
+
+```text
+data/raw/Generative AI Tools - Platforms 2025.csv
+```
+
+The raw data file is intentionally not committed to this repo by default.
 
 ---
 
-## 📈 Results (holdout)
+## 🧱 Notebook workflow
 
-| model         | accuracy | macro_f1 | roc_auc |
-|---------------|----------|----------|---------|
-| logreg        | **0.609** | **0.596** | 0.663 |
-| random_forest | 0.609    | 0.462    | **0.667** |
-| hgb           | 0.609    | 0.462    | 0.635 |
-
-**Best baseline**: Logistic Regression  
-Small dataset → treat these as **baseline-level** signals, not production performance.
+1. **Config and imports**
+2. **Data loading**
+3. **Initial data audit**
+4. **Cleaning and derived features**
+5. **Exploratory data analysis**
+6. **Leak-aware modeling setup**
+7. **Cross-validated baselines**
+8. **Hold-out sanity check**
+9. **Feature signal check**
+10. **Decisions, takeaways, and data dictionary**
 
 ---
 
-## 🔍 Notes on methodology
+## 🧪 Modeling approach
 
-- **No leakage**: encoders are fit on train only  
-- **Derived features** enrich predictive signal  
-- **Models stay simple** for transparency, not SOTA  
-- **Small dataset** → results are a benchmark, not a final conclusion  
-- **Reproducibility**: `SEED=42`, stratified split  
+The target is:
+
+```text
+open_source
+```
+
+The baseline uses reusable metadata features such as:
+
+- `category_canonical`
+- `modality_canonical`
+- `api_status`
+- `api_available`
+- `release_year`
+- `years_since_release_2025`
+- recomputed modality flags/counts
+
+Identifier-like fields are excluded from modeling:
+
+- `tool_name`
+- `company`
+- `website`
+- `source_domain`
+
+This keeps the benchmark focused on general metadata signal instead of memorizing specific tools or publishers.
 
 ---
 
@@ -76,54 +93,96 @@ Small dataset → treat these as **baseline-level** signals, not production perf
 
 ```text
 .
-├── generative-ai-tools-platforms-2025-eda-m.ipynb
+├── generative-ai-tools-platforms-2025-eda-baseline.ipynb
 ├── data/
-│   └── raw/               # local dataset file goes here
-├── artifacts/             # saved outputs (kept out of git by default)
-├── repo_utils/
-│   └── pathing.py         # local + Kaggle path helper
+│   └── raw/
+│       └── .gitkeep
+├── artifacts/
+│   └── .gitkeep
+├── scripts/
+│   └── validate_notebook.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── CASE_STUDY.md
 ├── requirements.txt
 ├── LICENSE
-└── .gitignore
+└── README.md
 ```
 
 ---
 
-## 🛠️ Environment
+## 🛠️ Run locally
+
+Create an environment and install dependencies:
+
+```bash
+python -m venv .venv
+```
+
+Activate it:
+
+```bash
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+```
 
 Install dependencies:
 
 ```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Open the notebook and run top-to-bottom (Jupyter / VS Code).
+Then open and run:
 
-**Optional:** set a full path via environment variable:
-- `DATA_PATH=/full/path/to/Generative AI Tools - Platforms 2025.csv`
+```text
+generative-ai-tools-platforms-2025-eda-baseline.ipynb
+```
+
+---
+
+## ✅ Static validation
+
+This repo includes a lightweight CI check that validates the notebook JSON and Python syntax of all code cells.
+
+Run locally:
+
+```bash
+python scripts/validate_notebook.py generative-ai-tools-platforms-2025-eda-baseline.ipynb
+```
+
+The validation is intentionally static; it does not require the dataset file.
+
+---
+
+## 📌 Notes
+
+- The notebook is designed for analysis and benchmarking, not deployment.
+- The baseline model is useful for checking whether simple metadata carries signal.
+- Dataset-level conclusions stay tied to fields available in the catalog.
 
 ---
 
 ## 🧾 Case study
 
-See **CASE_STUDY.md** (project story + decisions).
+See [`CASE_STUDY.md`](CASE_STUDY.md) for the project story, design choices, and interpretation boundaries.
 
 ---
 
 ## 📜 License
 
-MIT (code). Dataset remains subject to its original license.
+Code is released under the MIT License.  
+Dataset usage should follow the license and terms on the dataset page.
 
 ---
 
-## 🙌 Credits
+## 👤 Author
 
-Dataset: **Generative AI Tools & Platforms 2025** (curated)  
-Author: **Tarek Masryo**
+**Tarek Masryo**
 
-## Related repositories
+## 🔗 Related
+
 - 📂 Generative AI Tools Dataset: https://github.com/tarekmasryo/genai-tools-dataset
